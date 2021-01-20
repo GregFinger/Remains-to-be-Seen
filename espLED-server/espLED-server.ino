@@ -16,7 +16,8 @@ NeoPixelBus<NeoGrbFeature, Neo800KbpsMethod> strip(LED_COUNT);
 //CRGB leds[LED_COUNT];
 
 const char *ssid = "Remains to be Seen";
-const char *password = "crap_password";
+const char *password = "plgrmdoesitbetter";
+int wifichan = 3;
 unsigned int localPort = 8888;
 
 WiFiUDP UDP;
@@ -27,8 +28,11 @@ void setup() {
   Serial.begin(115200);
   delay(1000);
 
+  WiFi.mode(WIFI_AP);
+  delay(1000);
+
   Serial.print("Setting soft-AP ... ");
-  Serial.println(WiFi.softAP(ssid, password) ? "Ready" : "Failed!");
+  Serial.println(WiFi.softAP(ssid, password, wifichan) ? "Ready" : "Failed!");
 
   Serial.print("Soft-AP IP address = ");
   Serial.println(WiFi.softAPIP());
@@ -53,17 +57,17 @@ void loop() {
   RgbColor pixel;
   if (packetSize) {
 
-//    Serial.printf("Received %d bytes from %s, port %d\n", packetSize, UDP.remoteIP().toString().c_str(), UDP.remotePort());
+    //    Serial.printf("Received %d bytes from %s, port %d\n", packetSize, UDP.remoteIP().toString().c_str(), UDP.remotePort());
 
     UDP.read(packetBuffer, UDP_TX_PACKET_MAX_SIZE);
     for (uint16_t i = 0; i < LED_COUNT; i++) {
       pixel = RgbColor(packetBuffer[(i * 3)], packetBuffer[(i * 3) + 1], packetBuffer[(i * 3) + 2]);
       strip.SetPixelColor(i, pixel);
-//      leds[i].setRGB (packetBuffer[(i * 3)],
-//                      packetBuffer[(i * 3) + 1],
-//                      packetBuffer[(i * 3) + 2]);
+      //      leds[i].setRGB (packetBuffer[(i * 3)],
+      //                      packetBuffer[(i * 3) + 1],
+      //                      packetBuffer[(i * 3) + 2]);
     }
-//    FastLED.show();
+    //    FastLED.show();
     strip.Show();
   }
 
