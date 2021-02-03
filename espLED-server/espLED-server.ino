@@ -2,11 +2,6 @@
 #include <WiFiUDP.h>
 #include <NeoPixelBus.h>
 
-/* All commented code is for FastLED */
-//#define FASTLED_ESP8266_NODEMCU_PIN_ORDER
-//#include <FastLED.h>
-//#define PIN 6
-
 #define LED_COUNT 256
 #define UDP_TX_PACKET_MAX_SIZE 1500
 
@@ -15,8 +10,8 @@ NeoPixelBus<NeoGrbFeature, Neo800KbpsMethod> strip(LED_COUNT);
 
 //CRGB leds[LED_COUNT];
 
-const char *ssid = "Remains to be Seen";
-const char *password = "plgrmdoesitbetter";
+const char *ssid = "network";
+const char *password = "password";
 int wifichan = 3;
 unsigned int localPort = 8888;
 
@@ -40,9 +35,6 @@ void setup() {
   Serial.print("Connecting to UDP ... ");
   Serial.println(UDP.begin(localPort) ? "Ready" : "Failed!");
 
-  //  pinMode(0, INPUT_PULLUP);
-  //  FastLED.addLeds<WS2812B, PIN, GRB>(leds, LED_COUNT);
-
   strip.Begin();
   strip.Show();
 
@@ -63,11 +55,7 @@ void loop() {
     for (uint16_t i = 0; i < LED_COUNT; i++) {
       pixel = RgbColor(packetBuffer[(i * 3)], packetBuffer[(i * 3) + 1], packetBuffer[(i * 3) + 2]);
       strip.SetPixelColor(i, pixel);
-      //      leds[i].setRGB (packetBuffer[(i * 3)],
-      //                      packetBuffer[(i * 3) + 1],
-      //                      packetBuffer[(i * 3) + 2]);
     }
-    //    FastLED.show();
     strip.Show();
   }
 
