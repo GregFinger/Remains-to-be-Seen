@@ -15,8 +15,8 @@ boolean wifiConnected = false;
 
 // UDP variables
 unsigned int localPort = 8888;
-IPAddress ip(192, 168, 1, 211);
-IPAddress gateway(192, 168, 1, 254);
+IPAddress ip(192, 168, 41, 169);
+IPAddress gateway(192, 168, 41, 254);
 IPAddress subnet(255, 255, 255, 0);
 
 WiFiUDP UDP;
@@ -35,7 +35,7 @@ void loop() {
 
   ESP.wdtEnable(WDTO_8S);
   ESP.wdtFeed();
-  
+
   if (wifiConnected == 1) {
     if (udpConnected) {
       int packetSize = UDP.parsePacket();
@@ -50,7 +50,7 @@ void loop() {
       }
     }
   }
-  
+
   if (wifiConnected == 0) {
 
     wifiConnected = connectWifi();
